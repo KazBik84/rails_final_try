@@ -9,7 +9,7 @@ class StaticPagesControllerTest < ActionController::TestCase
   
   test "home should have correct title" do
     get :home
-    assert_select "title", "Home | Ruby on Rails Tutorial Sample App"
+    assert_select "title", "Ruby on Rails Tutorial Sample App"
   end
 
   test "should get help" do
