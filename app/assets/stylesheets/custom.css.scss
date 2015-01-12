@@ -6,6 +6,16 @@
 $light-gray: #777;
 $gray-medium-light: #eaeaea;
 
+/* @mixin to zbiór zasad do których przypisaliśmy 
+    nazwe 'box_sizing' i by potem przypisać je do 
+    określonej części kodu należy na końcu dopisać
+    '@include box_sizing' by kod został wykorzystany. */
+@mixin box_sizing {
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:         border-box;
+}
+
 /* Universal */
 
 html {
@@ -101,4 +111,14 @@ footer {
       margin-left: 15px;
     }
   }
+}
+
+/* miscellaneous różności ;) */
+
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
 }

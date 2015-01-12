@@ -15,6 +15,10 @@
     <div class="container">
         <%= yield %>
         <%= render 'layouts/footer' %>
+        <!-- funkcja debug wypisze informacje o podanych zmiennych
+        w tym przypadku wypisze wszystkie patramtry zbioru 'params' 
+        jeśli program będzie działał w środowisku development-->
+        <%= debug(params) if Rails.env.development? %>
     </div>
   </body>
 </html>
