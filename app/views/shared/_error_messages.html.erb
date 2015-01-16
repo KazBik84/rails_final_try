@@ -1,0 +1,19 @@
+<!-- @user.errors.any? zwraca prawde jeśli do obiektu @user przypisano jakieś
+  błędy podczas nieudanej próby zapisania do bazy danych -->
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert alert-danger">
+      <!-- @user.errors.count zwraca licbe wartości w zbiorze błędów; 
+        funkcja 'pluralize' zawarta w ActionView::Helpers::TextHelper
+        zmienia wartość domyślnego słowa na l.mng jeśli zajdzi taka potrzeba -->
+      The form contains <%= pluralize(@user.errors.count, "error") %>
+    </div>
+    <ul>
+      <!-- errors.full_messeges zwraca pełne opisy błędów które wystąpiły
+        podczas walidacji -->
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
