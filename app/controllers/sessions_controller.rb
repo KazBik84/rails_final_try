@@ -11,9 +11,17 @@ class SessionsController < ApplicationController
     # hasla wtedy zwracana jest prawda. funkcja 'authenticate' jest czescia metody 
     # 'has_secure_password' której użylismy w modelu User.
     if user && user.authenticate(params[:session][:password])
-      #log the user in and redirect to the user`s show page
+      # po autentyfikacji przypisujemy usera do session[:user_id] 
+      # funkcja log_in(user) znajduje się w app/helpers/sessions_helper.rb 
+      log_in user # to to samo co log_in(user)
     else
-      flash[:danger] = 'Invalid email/password combination'
+      # używamy flash.now zamiast flash, ponieważ flash pozostaje do następnego 
+      # żądania w tym przypadku 'render' nie jest żądaniem, flash zostanie więc również 
+      # na następnej wyświetlonej stronie. 
+      
+      # Flash.now działa tylko teraz nie do pierwszego żądania, dlatego
+      # po żądaniu kolejnym po render 'new', flash zniknie.
+      flash.now[:danger] = 'Invalid email/password combination'
       render 'new'
     end
   end
