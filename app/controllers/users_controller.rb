@@ -14,6 +14,9 @@ class UsersController < ApplicationController
     #które otrzymał po wypełnionym formularzu w akcji 'new'
     @user = User.new(user_params)
     if @user.save #jesli uda sie zapisac obiekt do bazy danych
+      #funcka zdefiniowana w 'sessions_helper', stworzy hash session i przypisze 
+      #  @user.id do klucza session[:user_id]
+      log_in @user
       #flash to wartość która istenieje tylko na czas najbliższej akcji przeglądarki
       # w tym przypadku pojawi się tylko jeśli akcja została przeprowadzona pomyślnie
       # success. I wygeneruje tekst "Welcome .... "
