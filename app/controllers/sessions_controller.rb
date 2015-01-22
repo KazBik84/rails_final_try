@@ -25,18 +25,6 @@ class SessionsController < ApplicationController
       flash.now[:danger] = 'Invalid email/password combination'
       render 'new'
     end
-    
-    def current_user
-      #jeśli do @current user nie jest już przypisana jakaś wartość, przypisuje  
-      #  do niego Wartość znalezioną w bazie danych.
-      @current_user ||= User.find_by(id: session[:user_id])
-    end
-    
-    def logged_in?
-      # Funkcja sprawdza czy funkcja current_user jest nil. Jeśli nie jest to
-      # dzięki zaprzeczeniu (! na początku) zwraca prawdę.
-      !current_user.nil?
-    end
   end
   
   def destroy

@@ -42,4 +42,10 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     post_via_redirect users_path, user: @valid_user
     assert_template 'users/show'
   end
+  
+  test "After succesfull signup user should be loggen in" do
+    get signup_path
+    post user_path, user: @valid_user
+    assert is_logged_in?
+  end
 end
