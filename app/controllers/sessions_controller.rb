@@ -28,6 +28,9 @@ class SessionsController < ApplicationController
   end
   
   def destroy
+    #funkcja niszcząca hash session zdefiniowana w app/helpers/sessions_helper.rb
+    log_out
+    redirect_to root_path
   end
   
 end

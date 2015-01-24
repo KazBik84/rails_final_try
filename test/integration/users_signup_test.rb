@@ -12,6 +12,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                     email: "kazik@costam.pl",
                     password: "foobar",
                     password_confirmation: "foobar"}
+
   end
   
   test "the number of object in DB should not chenge with invalid parameters" do
@@ -45,7 +46,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
   
   test "After succesfull signup user should be loggen in" do
     get signup_path
-    post user_path, user: @valid_user
+    post users_path, user: @valid_user
     assert is_logged_in?
   end
 end

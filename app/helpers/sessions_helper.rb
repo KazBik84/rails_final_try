@@ -17,5 +17,12 @@ module SessionsHelper
       # dzięki zaprzeczeniu (! na początku) zwraca prawdę.
       !current_user.nil?
     end
+    
+    #Wylogowanie usera poprzez zniszczenie z hasha 'session' klucza "user_id" 
+    # po którym rozpoznawany jest na stronie
+    def log_out
+      session.delete(:user_id)
+      @current_user = nil
+    end
 end
 
