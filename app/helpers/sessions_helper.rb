@@ -7,9 +7,18 @@ module SessionsHelper
   end
   
     def current_user
-      #jeśli do @current_user nie jest już przypisana jakaś wartość, przypisuje  
-      #  do niego Wartość znalezioną w bazie danych.
-      @current_user ||= User.find_by(id: session[:user_id])
+      if session[:user_id] # to to samo co: user_id = session[:user_id], czyli jeśli 
+                           # user_id to session[:user_id] wtedy true
+        #jeśli do @current_user nie jest już przypisana jakaś wartość, przypisuje  
+        #  do niego Wartość znalezioną w bazie danych.
+        @current_user ||= User.find_by(id: session[:user_id])
+      elsif cookies.signed[:user_id] # to samo co user_id = cookies.signed[:user_id]
+        user = User.find_by(id: cookies.signed[:user_id])
+        if user && user.authenticated?(cookies[:remember_token])
+          log_in user
+          @current_user = user
+        end
+      end
     end
     
     def logged_in?
@@ -24,5 +33,19 @@ module SessionsHelper
       session.delete(:user_id)
       @current_user = nil
     end
+    
+    # funkcja najpierw korzysta z funkcji remember z modelu user.rb, następnie
+    #  tworzy pernamentne cisteczko z wartością :user_id i przypisuje do niego id 
+    #  użytkownika, następnie utworzony wcześniej zakodowany remember_token
+    #  przypisujemy do klucz :remember_token
+    def remember(user)
+      user.remember
+      # cookies oznacza że będziemy korzystać  z funkcji cookies, 
+      #  pernament że ciasteczko wygaśnie po 20 latach (taka konwencja)
+      #  signed oznacza że wartość jest kodowana.
+      cookies.pernament.signed[:user_id] = user.id
+      cookies.pernament[:remember_token] = user.remember_token
+    end
+
 end
 

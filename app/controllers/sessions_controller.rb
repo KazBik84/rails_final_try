@@ -14,6 +14,9 @@ class SessionsController < ApplicationController
       # po autentyfikacji przypisujemy usera do session[:user_id] 
       # funkcja log_in(user) znajduje się w app/helpers/sessions_helper.rb 
       log_in user # to to samo co log_in(user)
+      # odwołanie do funkcji zdefiniowanej w session_helper.rb która tworzy
+      #  pernamentne ciasteczka u użytkownika.
+      remember user
       redirect_to user
     else
       # używamy flash.now zamiast flash, ponieważ flash pozostaje do następnego 
