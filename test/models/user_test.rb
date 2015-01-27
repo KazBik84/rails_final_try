@@ -39,6 +39,11 @@ class UserTest < ActiveSupport::TestCase
       assert @user.valid?, "#{valid_adress.inspect} should be valid"
     end
   end
+    
+  test "authenticated? (funckja z modelu user.rb), powinna zwrócić fałsz, gdy
+    user, remember_digest jest nilem" do
+    assert_not @user.authenticated?('')
+  end
   
   test "email validation should reject invalid addresses" do
     # %[...] tworzy array stringów

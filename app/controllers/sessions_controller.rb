@@ -32,7 +32,9 @@ class SessionsController < ApplicationController
   
   def destroy
     #funkcja niszcząca hash session zdefiniowana w app/helpers/sessions_helper.rb
-    log_out
+    # które jest prawdziwa tylko gdy, funkcja logged_in? z session_helper.rb zwróci prawdę,
+    # czyli w sytuacji gdy current_user nie jest nilem.
+    log_out if logged_in?
     redirect_to root_path
   end
   

@@ -18,6 +18,11 @@
       <%= form.label :password_confirmation, "Confirmation" %>
       <%= form.password_field :password_confirmation, class: 'form-control' %>
       
+      <%= form.label :remember_me, class: "checkbox inline" do %>
+        <%= form.check_box :remember_me %>
+        <spam>Remember me on this computer</spam>
+      <% end %>
+      
       <%= form.submit "Create my account", class: "btn btn-primary" %>
     <% end %>
   </div>
