@@ -15,7 +15,7 @@ class ActiveSupport::TestCase
   end
   
   def log_in_as(user, options = {})
-    password = options[:password] || 'haslo'
+    password = options[:password] || 'password'
     remember_me = options[:remember_me] || '1'
     # integration test jest funkcją sprawdzającą rodzaj test, zdefiniowaną, w tym pliku
     if integration_test?
