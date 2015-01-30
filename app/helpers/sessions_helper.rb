@@ -13,6 +13,8 @@ module SessionsHelper
       #  do niego Wartość znalezioną w bazie danych.
       @current_user ||= User.find_by(id: session[:user_id])
     elsif cookies.signed[:user_id] # to samo co user_id = cookies.signed[:user_id]
+      #raise # jeśli program nie wywali nigdzie błędu w testach, znaczy że ta część 
+      #  kodu jest nie przetestowana
       user = User.find_by(id: cookies.signed[:user_id])
       if user && user.authenticated?(cookies[:remember_token])
         log_in user

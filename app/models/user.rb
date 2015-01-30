@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
     return false if remember_digest.nil?
     # porównuje w chuj wie jaki sposób remeber_digest zapisany w bazie danych
     # z wartością remember_token z ciasteczka
-    BCrypt::Password.new(remember_digest.is_password?(remember_token))
+    BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
   
   # Funkcja która "zapomina" user, czyi ustawia jego remember_digest na nil
