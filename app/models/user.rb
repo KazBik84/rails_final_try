@@ -9,23 +9,31 @@ class User < ActiveRecord::Base
   validates :email, { presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false } }
-  validates :password, { length: { minimum: 6 } }
+  validates :password, { length: { minimum: 6 }, allow_blank: true }
   has_secure_password
   
   # Funkcje zwraca zakodowaną wersję podanego stringu. W zależności czy odbywa się 
   # to w testach czy w produkcji kodowanie jest proste lub złożone.
-  def User.digest(string)
-    # określa stopień kodowania w zależności czy funkcjonuje w środowisku test 
-    # czy produkcja..... chyba .... ????
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : 
-                                                  BCrypt::Engine.cost
-    # zwraca zakodowaną wersję zmiennej 'string'
-    BCrypt::Password.create(string, cost: cost)
-  end
   
-  # Zwraca wygenerowany losowo token
-  def User.new_token
-    SecureRandom.urlsafe_base64
+  # w tym przypadku self odnosi się od obiektu User
+  #def self.digest(string)
+  
+  #stworzenie klasy która dziedziczy z 'self' pozwala pominąc je w nazwach metod
+  class << self
+    
+    def digest(string)
+      # określa stopień kodowania w zależności czy funkcjonuje w środowisku test 
+      # czy produkcja..... chyba .... ????
+      cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : 
+                                                  BCrypt::Engine.cost
+      # zwraca zakodowaną wersję zmiennej 'string'
+      BCrypt::Password.create(string, cost: cost)
+    end
+  
+    # Zwraca wygenerowany losowo token
+    def new_token
+      SecureRandom.urlsafe_base64
+    end
   end
   
   # Zapamiętuje Usera w bazie danych, by potem móc użyć go w trwałej sesji. ????
@@ -35,6 +43,7 @@ class User < ActiveRecord::Base
     # aktualizuje zmienną :remember_digest Usera, zakodowaną wartością remember_token
     update_attribute(:remember_digest, User.digest(remember_token))
   end
+  
   # funkcja zwraca prawdę jeżeli wartośćtokenu odpowiada wartości remember_digest
   def authenticated?(remember_token)
     return false if remember_digest.nil?
