@@ -18,7 +18,10 @@ class SessionsController < ApplicationController
       #  pernamentne ciasteczka u użytkownika lub je niszczy w zależności od 
       #  remember_me
       params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
-      redirect_to @user
+      #funkcja z sessions_controller, która przekierowuje użytkownika do adresu 
+      # zapisanego w session[:forewarging_url] lub do url podanego jako parametr
+      # funkcja redirect_back_or jest zapisana w sessions_helper
+      redirect_back_or @user
     else
       # używamy flash.now zamiast flash, ponieważ flash pozostaje do następnego 
       # żądania w tym przypadku 'render' nie jest żądaniem, flash zostanie więc również 
@@ -37,6 +40,6 @@ class SessionsController < ApplicationController
     # czyli w sytuacji gdy current_user nie jest nilem.
     log_out if logged_in?
     redirect_to root_path
-  end
+  end      
   
 end

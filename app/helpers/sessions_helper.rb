@@ -65,5 +65,18 @@ module SessionsHelper
   def current_user?(user)
     user == current_user
   end
+  
+  #Funkcja przekierowuje to lokacji zapisanej w session[:forwarding] jeśli istnieje,
+  # w przeciwnym razie przekierowuje do wskazanego adresu. 
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+  
+  #Funkcja przypisuje do hasha session[:forwarding_url] żądany url, jeśli jest 
+  # on poprzedony akcją GET. 
+  def store_location
+    session[:forwarding_url] = request.url if request.get?
+  end
 end
 

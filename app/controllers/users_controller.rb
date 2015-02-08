@@ -1,9 +1,13 @@
 class UsersController < ApplicationController
   # before action wywoła funkcję 'logged_in_user' przed wykonaniem akcji podanych
   # w hashu 'only'
-  before_action :logged_in_user, only: [:edit, :update]
+  before_action :logged_in_user, only: [:index, :edit, :update]
   before_action :correct_user, only: [:edit, :update]
   
+  def index
+    @users = User.all
+  end
+
   def show
     @user = User.find(params[:id])  
   end
@@ -63,8 +67,12 @@ class UsersController < ApplicationController
     
     #Potwierdza czy user jest zalogowany
     def logged_in_user
-      #jeżeli funkcja logged_in? która zdefiniowana jest w sessions_helper.rb
+      #jeżeli funkcja logged_in? która zdefiniowana jest w sessions_helper.rb,
+      # nie jest prawdą
       unless logged_in?
+        # funkcja z sessions_helper.rb która do sessions[:forwarding_url] przypisuje url który
+        # chce użyć użytkownik
+        store_location
         flash[:danger] = "Prosze się zalogować"
         redirect_to login_url
       end
