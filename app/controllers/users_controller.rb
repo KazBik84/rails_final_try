@@ -5,6 +5,8 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
   
   def index
+    #User.paginate jest wymuszone wykorzystaniem gemu 'will_paginate' który dzili
+    # zawartość zmiennej @users na strony. params page jest tworzony przez ten gem.
     @users = User.paginate(page: params[:page])
   end
 

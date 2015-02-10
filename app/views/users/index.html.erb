@@ -1,15 +1,17 @@
 <% provide(:title, 'All users') %>
 <h1>All users</h1>
 
+<!-- odniesienie do gemu will_paginate, który poprzez tę komendę w tym miejscu 
+  utworzy liste stron na których zostały podzielone obiekty ze zmiennej @users --> 
 <%= will_paginate %>
 
 <ul class="users">
-  <% @users.each do |user| %>
-    <li>
-      <%= gravatar_for user, size: 50 %>
-      <%= link_to user.name, user %>
-    </li>
-  <% end %>
+  <!-- w tym kontekście, render poszuka partiala _users.html.erb i 
+  wywoła iterację przez całą zmienną @users, korzytacją z partiala -->
+     
+  <%= render @users %>
 </ul>
 
+<!-- odniesienie do gemu will_paginate, który poprzez tę komendę w tym miejscu 
+  utworzy liste stron na których zostały podzielone obiekty ze zmiennej @users --> 
 <%= will_paginate %>
