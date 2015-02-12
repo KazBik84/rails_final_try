@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
   # before action wywoła funkcję 'logged_in_user' przed wykonaniem akcji podanych
   # w hashu 'only'
-  before_action :logged_in_user, only: [:index, :edit, :update]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update]
+  before_action :admin_user, only: :destroy
   
   def index
     #User.paginate jest wymuszone wykorzystaniem gemu 'will_paginate' który dzili
@@ -56,6 +57,13 @@ class UsersController < ApplicationController
     end
   end
   
+  # funkcja odnajduje uytkownika do zniszczenia po przełanym id, i wykonuje na obiekcie 
+  # akcje destroy, po czym przekierowuje do strony z użytkownikami i wyświetla flasha.
+  def destroy
+    User.find(params[:id]).destroyflash[:success] = "User deleted"
+    redirect_to users_url
+  end    
+  
   private # wszystko po tej komendzie jest prywatne tylko dla users_controller
   
     #funkcja ta przyjmie wartości przesłane w params[:user] 
@@ -90,5 +98,10 @@ class UsersController < ApplicationController
       # nie zwróci prawdy. Czyli jeśli zalogowany użytkownik, stara się uzyskać 
       # dostęp do swoich zasobów. 
       redirect_to(root_url) unless current_user?(@user)
+    end
+    
+    def admin_user
+      # funkcja current_user jest zdefiniowana w sessions_helper.rb
+      redirect_back_or(root_url) unless current_user.admin?
     end
 end

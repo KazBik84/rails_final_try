@@ -44,4 +44,6 @@ class UsersControllerTest < ActionController::TestCase
     get :index
     assert_redirected_to login_url
   end
+  
+  
 end

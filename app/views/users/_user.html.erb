@@ -2,4 +2,12 @@
 <li>
   <%= gravatar_for user, size: 50 %>
   <%= link_to user.name, user %>
+  <!-- current user to funkcja zdefiniowana w session_helper.rb, podobnie 
+  jak funkcja current_user?. Zawinięcie tego w zdanie typu if, powoduje że wyświetli 
+  się tylko adminowi -->
+  <% if current_user.admin? && !current_user?(user) %>
+      <!-- method: :delete inicjuje typ żadania Delete -->
+    | <%= link_to "delete", user, method: :delete, 
+                                            data: { confirm: "You sure?" } %>
+  <% end %>
 </li>
