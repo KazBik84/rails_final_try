@@ -60,7 +60,8 @@ class UsersController < ApplicationController
   # funkcja odnajduje uytkownika do zniszczenia po przełanym id, i wykonuje na obiekcie 
   # akcje destroy, po czym przekierowuje do strony z użytkownikami i wyświetla flasha.
   def destroy
-    User.find(params[:id]).destroyflash[:success] = "User deleted"
+    User.find(params[:id]).destroy
+    flash[:success] = "User deleted"
     redirect_to users_url
   end    
   
