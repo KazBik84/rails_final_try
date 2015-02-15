@@ -12,5 +12,7 @@ Rails.application.routes.draw do
   delete 'logout'    => 'sessions#destroy'
   # resourcs dodaje możliwość korzystania z wszystkich REST akcji
   resources :users 
+  # ograniczenie przekierowań tylko do akcji edit.
+  resources :account_activations, only: [:edit]
 
 end

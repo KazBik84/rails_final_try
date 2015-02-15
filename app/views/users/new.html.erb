@@ -6,17 +6,9 @@
     <%= form_for(@user) do |form| %>
       <!-- wprowadzenie pomocnika error_messages.html.erb z katalogu app/views/shared -->
       <%= render 'shared/error_messages'%>
-      <%= form.label :name %>
-      <%= form.text_field :name, class: 'form-control' %>
-      
-      <%= form.label :email %>
-      <%= form.email_field :email, class: 'form-control' %>
-      
-      <%= form.label :password %>
-      <%= form.password_field :password, class: 'form-control' %>
-      
-      <%= form.label :password_confirmation, "Confirmation" %>
-      <%= form.password_field :password_confirmation, class: 'form-control' %>
+      <!-- wygeneruje kod z pomocnika _fields.html.erb, by to zadziałało należy 
+      przesłać zmienną 'form: form' -->
+      <%= render 'fields', form: form %>
       
       <%= form.submit "Create my account", class: "btn btn-primary" %>
     <% end %>

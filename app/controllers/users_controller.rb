@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     #i zwróci tylko dopuszczone wartości
     def user_params
      params.require(:user).permit(:name, :email, :password,
-                                    :password_confirmation) 
+                                    :password_confirmation ) 
     end
     
     # Before filters

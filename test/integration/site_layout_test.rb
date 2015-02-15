@@ -2,28 +2,26 @@ require 'test_helper'
 
 class SiteLayoutTest < ActionDispatch::IntegrationTest
 
-  test 'should get home view' do
+  def setup
+    @user = users(:kask)
+  end
+  
+  test 'layout links' do
     get root_path
     assert_template 'static_pages/home'
-  end
-  
-  test 'root should have two root_paths' do
-    get root_path
     assert_select "a[href=?]", root_path, count: 2
-  end
-  
-  test 'root should have help link' do
-    get root_path
     assert_select "a[href=?]", help_path
-  end
-  
-  test 'root should have about link' do
-    get root_path
     assert_select "a[href=?]", about_path
+    assert_select "a[href=?]", contact_path
+    assert_select "a[href=?]", login_path
+    log_in_as(@user)
+    assert_redirected_to @user
+    follow_redirect!
+    assert_select "a[href=?]", users_path
+    assert_select "a[href=?]", edit_user_path
+    assert_select "a[href=?]", users_path
+    assert_select "a[href=?]", logout_path
+    assert_select "a[href=?]", login_path, count: 0
   end
   
-  test 'root should have contact link' do
-    get root_path
-    assert_select "a[href=?]", contact_path    
-  end
 end

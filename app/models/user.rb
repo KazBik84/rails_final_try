@@ -1,9 +1,13 @@
 class User < ActiveRecord::Base
-  attr_accessor :remember_token
+  attr_accessor :remember_token, :activation_token
   # call back - czyli procedura ktora zostanie wykonana 
   #             przed wykonaniem akcji w tym przypadku
   #             przed save
-  before_save { email.downcase! }# to to samo co => self.email = email.downcase 
+  before_save :downcase_email
+  # Akcja before create działą jak nazwa wskazuje tylko przed akcją create, nie 
+  # przed akcja update. Funkcja create_activation_digest jest prywatną 
+  # funkcją tego modelu.
+  before_create :create_activation_digest
   validates :name, { presence: true, length: { maximum: 50 } }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, { presence: true, length: { maximum: 255 },
@@ -56,4 +60,20 @@ class User < ActiveRecord::Base
   def forget
     update_attribute(:remember_digest, nil)
   end
+  
+  private
+  
+    # funkcja zmienia email na małe litery
+    def downcase_email
+      self.email = email.downcase
+    end
+   
+    # Funckaj tworzy actiation token oraz tworzy
+    # activation digest ktory zostanie wyslany do uzytkownika.
+    def create_activation_digest
+      # PRzypisanie wygenerowanego tokenu, przy pomocy funkcji new_token
+      self.activation_token = User.new_token
+      # zakodowanie activation tokenu. 
+      self.activation_digest = User.digest(activation_token)
+    end
 end
