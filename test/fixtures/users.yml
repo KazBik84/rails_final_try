@@ -1,6 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 kask:
-  name: Kazik Przykład
+  name: Kazik Przyklad
   email: kazik@o2.pl  
   password_digest: <%= User.digest('password') %>
   admin: true

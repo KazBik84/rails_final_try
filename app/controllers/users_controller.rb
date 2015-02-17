@@ -26,16 +26,20 @@ class UsersController < ApplicationController
     #które otrzymał po wypełnionym formularzu w akcji 'new'
     @user = User.new(user_params)
     if @user.save #jesli uda sie zapisac obiekt do bazy danych
-      # log_in to funcka zdefiniowana w 'sessions_helper', stworzy hash session i przypisze 
-      #  @user.id do klucza session[:user_id]
-      log_in @user
+        # Stare!! log_in to funcka zdefiniowana w 'sessions_helper', stworzy hash session i przypisze 
+        # Stare!! @user.id do klucza session[:user_id]
+        # Stary kod !! >> log_in @user
+      UserMailer.account_activation(@user).deliver_now
       #flash to wartość która istenieje tylko na czas najbliższej akcji przeglądarki
-      # w tym przypadku pojawi się tylko jeśli akcja została przeprowadzona pomyślnie
-      # success. I wygeneruje tekst "Welcome .... "
-      flash[:success] = "Welcome to the Sample App Kazika!"
-      # użytkownik zostanie przekierowany do user_url(@user), czyli do user_path(id)
-      # czyli akcji show z kontrolera Users
-      redirect_to @user
+        # Stare!! w tym przypadku pojawi się tylko jeśli akcja została przeprowadzona pomyślnie
+        # Stare !!success. I wygeneruje tekst "Welcome .... "
+        #flash[:success] = "Welcome to the Sample App Kazika!"
+      # w tym przypadku zostanie wygenerowany flash o fladze info z tekstem. 
+      flash[:info] = "Please check your email to activate your account"
+        # użytkownik zostanie przekierowany do user_url(@user), czyli do user_path(id)
+        # czyli akcji show z kontrolera Users
+        # redirect_to @user
+      redirect_to root_url
     else
       render 'new' #przekierowuje do akcji 'new' zkontrollera users
     end
