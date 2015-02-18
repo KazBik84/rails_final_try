@@ -48,12 +48,16 @@ class User < ActiveRecord::Base
     update_attribute(:remember_digest, User.digest(remember_token))
   end
   
-  # funkcja zwraca prawdę jeżeli wartośćtokenu odpowiada wartości remember_digest
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    # porównuje w chuj wie jaki sposób remeber_digest zapisany w bazie danych
-    # z wartością remember_token z ciasteczka
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  # funkcja zwraca prawdę jeżeli wartość tokenu odpowiada wartości 'digest' tego tokenu
+  def authenticated?(attribute, token)
+    # do zmiennej przesyłany jest parametr który tworzony jest z atrybutu 'atrribute'
+    # i stałej '_digest' w ten sposób można przesłać np remember i stworzyć remember_digest
+    # podobnie jak activation i stworzyć activation_digst
+    digest = send("#{attribute}_digest")# 'send' jako krótsza wersja 'self.send'
+    return false if digest.nil?
+    # porównuje w chuj wie jaki sposób digest zapisany w bazie danych
+    # z wartością token z ciasteczka
+    BCrypt::Password.new(digest).is_password?(token)
   end
   
   # Funkcja która "zapomina" user, czyi ustawia jego remember_digest na nil

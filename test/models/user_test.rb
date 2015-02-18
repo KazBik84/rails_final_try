@@ -42,7 +42,7 @@ class UserTest < ActiveSupport::TestCase
     
   test "authenticated? (funckja z modelu user.rb), powinna zwrócić fałsz, gdy
     user, remember_digest jest nilem" do
-    assert_not @user.authenticated?('')
+    assert_not @user.authenticated?(:remember, '')
   end
   
   test "email validation should reject invalid addresses" do

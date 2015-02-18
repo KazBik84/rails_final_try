@@ -16,7 +16,8 @@ module SessionsHelper
       #raise # jeśli program nie wywali nigdzie błędu w testach, znaczy że ta część 
       #  kodu jest nie przetestowana
       user = User.find_by(id: cookies.signed[:user_id])
-      if user && user.authenticated?(cookies[:remember_token])
+      # Symbol :remember jest potrzebny funkcji authentificated? by okreslić typ tokenu
+      if user && user.authenticated?(:remember, cookies[:remember_token])
         log_in user
         @current_user = user
       end
