@@ -11,17 +11,24 @@ class SessionsController < ApplicationController
     # hasla wtedy zwracana jest prawda. funkcja 'authenticate' jest czescia metody 
     # 'has_secure_password' której użylismy w modelu User.
     if @user && @user.authenticate(params[:session][:password])
-      # po autentyfikacji przypisujemy usera do session[:user_id] 
-      # funkcja log_in(user) znajduje się w app/helpers/sessions_helper.rb 
-      log_in @user # to to samo co log_in(@user)
-      # odwołanie do funkcji zdefiniowanych w session_helper.rb która tworzy
-      #  pernamentne ciasteczka u użytkownika lub je niszczy w zależności od 
-      #  remember_me
-      params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
-      #funkcja z sessions_controller, która przekierowuje użytkownika do adresu 
-      # zapisanego w session[:forewarging_url] lub do url podanego jako parametr
-      # funkcja redirect_back_or jest zapisana w sessions_helper
-      redirect_back_or @user
+      if @user.activated?
+        # po autentyfikacji przypisujemy usera do session[:user_id] 
+        # funkcja log_in(user) znajduje się w app/helpers/sessions_helper.rb 
+        log_in @user # to to samo co log_in(@user)
+        # odwołanie do funkcji zdefiniowanych w session_helper.rb która tworzy
+        #  pernamentne ciasteczka u użytkownika lub je niszczy w zależności od 
+        #  remember_me
+        params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
+        #funkcja z sessions_controller, która przekierowuje użytkownika do adresu 
+        # zapisanego w session[:forewarging_url] lub do url podanego jako parametr
+        # funkcja redirect_back_or jest zapisana w sessions_helper
+        redirect_back_or @user
+      else
+        message = "Account not activated."
+        message += "Check your email for the activation link."
+        flash[:warning] = message
+        redirect_to root_url
+      end
     else
       # używamy flash.now zamiast flash, ponieważ flash pozostaje do następnego 
       # żądania w tym przypadku 'render' nie jest żądaniem, flash zostanie więc również 

@@ -65,6 +65,19 @@ class User < ActiveRecord::Base
     update_attribute(:remember_digest, nil)
   end
   
+  # Zmienia atrybuty 'activated' i 'activated_at' danego obiektu
+  def activated
+    update_attribute(:activated, true)
+    update_attribute(:activated_at, Time.zone.now)
+  end
+  
+  # Funkcja wysyła maila aktywacyjnego
+  def send_activation_email
+    #funkcja używa nazwy mailera (Usermailer) i korzysta ze zdefiniowanej tam funkcji
+    # account_activation
+    UserMailer.account_activation(self).deliver_now
+  end
+  
   private
   
     # funkcja zmienia email na małe litery

@@ -29,7 +29,8 @@ class UsersController < ApplicationController
         # Stare!! log_in to funcka zdefiniowana w 'sessions_helper', stworzy hash session i przypisze 
         # Stare!! @user.id do klucza session[:user_id]
         # Stary kod !! >> log_in @user
-      UserMailer.account_activation(@user).deliver_now
+      #Funkcja zdefiniowana w user.rb
+      @user.send_activation_email
       #flash to wartość która istenieje tylko na czas najbliższej akcji przeglądarki
         # Stare!! w tym przypadku pojawi się tylko jeśli akcja została przeprowadzona pomyślnie
         # Stare !!success. I wygeneruje tekst "Welcome .... "
