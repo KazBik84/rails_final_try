@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :reset_token
   # call back - czyli procedura ktora zostanie wykonana 
   #             przed wykonaniem akcji w tym przypadku
   #             przed save
@@ -76,6 +76,18 @@ class User < ActiveRecord::Base
     #funkcja używa nazwy mailera (Usermailer) i korzysta ze zdefiniowanej tam funkcji
     # account_activation
     UserMailer.account_activation(self).deliver_now
+  end
+  
+  #Tworzy nowy reset token i modyfikuje obiekt (wartość reset_token i reset_sent_at)
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest, User.digest(reset_token))
+    update_attribute(:reset_send_at, Time.zone.now)
+  end
+  
+  #Funkcja wysyła maila z reset_tokenem
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
   end
   
   private

@@ -11,6 +11,8 @@
       <%= form.email_field :email, class: "form-control" %>
       
       <%= form.label :password %>
+      <!-- link do akcji 'new', z kontrolera password_resets
+      <%= link_to "(forgot password?)", new_password_resets_path %>
       <%= form.password_field :password, class: "form-control" %>
       
       <%= form.label :remember_me, class: "checkbox inline" do %>
