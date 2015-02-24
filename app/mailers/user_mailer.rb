@@ -3,12 +3,16 @@ class UserMailer < ActionMailer::Base
 
   def account_activation(user)
     @user = user
+    # mail zostanie wysłany do user.email, a temat wiadomości to subject    
     mail to: user.email, subject: "Account activation"
   end
 
-  def password_reset
-    @greeting = "Hi"
-
-    mail to: "to@example.org"
+  #Funkcja odpowiedzialna za wysyłanie maili z resetem
+  def password_reset(user)
+    # Przypisanie atrybutu user do zmiennej instancji, by móc wykorzystać jej 
+    # atrybuty w treści maila
+    @user = user
+    # mail zostanie wysłany do user.email, a temat wiadomości to subject
+    mail to: user.email, subject: "Password reset"
   end
 end

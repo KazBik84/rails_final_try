@@ -8,13 +8,18 @@ class UserMailerPreview < ActionMailer::Preview
     # Przypisanie do zmiennej user parametru activation_token o wartości 
     # uzyskane z funkcji klasy User.new_token
     user.activation_token = User.new_token
-    # Użycie funkcji z przypisanym do niej obiektem zapisanym w zmiennej 'user'
+    # Użycie funkcji 'account_activatin' z user_mailer, z przypisanym do niej 
+    # obiektem zapisanym w zmiennej 'user'
     UserMailer.account_activation(user)
   end
 
   # Preview this email at http://localhost:3000/rails/mailers/user_mailer/password_reset
   def password_reset
-    UserMailer.password_reset
+    user = User.first
+    user.reset_token = User.new_token
+    # Użycie funkcji 'account_activatin' z user_mailer, z przypisanym do niej 
+    # obiektem zapisanym w zmiennej 'user'    
+    UserMailer.password_reset(user)
   end
 
 end
