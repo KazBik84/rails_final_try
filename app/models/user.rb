@@ -90,6 +90,12 @@ class User < ActiveRecord::Base
     UserMailer.password_reset(self).deliver_now
   end
   
+  #Funkcja sprawdza czy ważnośc klucza reset wygasła
+  def password_reset_expired?
+    # reset_sent_at jest atrybutem (data) obiektu user
+    reset_sent_at < 2.hours.ago  
+  end
+  
   private
   
     # funkcja zmienia email na małe litery
