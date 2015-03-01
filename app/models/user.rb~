@@ -66,11 +66,11 @@ class User < ActiveRecord::Base
   end
   
   # Zmienia atrybuty 'activated' i 'activated_at' danego obiektu
-  def activate
+  def activated
     update_attribute(:activated, true)
     update_attribute(:activated_at, Time.zone.now)
   end
-
+  
   # Funkcja wysyła maila aktywacyjnego
   def send_activation_email
     #funkcja używa nazwy mailera (Usermailer) i korzysta ze zdefiniowanej tam funkcji

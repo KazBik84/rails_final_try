@@ -5,7 +5,7 @@ class AccountActivationsController < ApplicationController
     # jeśli user istnieje, nie jest aktywowany ale jest potwierdzone
     if user && !user.activated? && user.authenticated?(:activation, params[:id])
       # funkcja z modelu user.rb
-      user.activate
+      user.activated
       # funkcja z session_helper
       log_in user
       flash[:success] = "Account activated!"

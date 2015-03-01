@@ -50,7 +50,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     # Poprawna aktywacja
     get edit_account_activation_path(user.activation_token, email: user.email)
     # reload - odświeża usera dzięki czemu można testować czy zmienił się status activated
-    assert user.reload.activated?
+    assert_not user.reload.activated?
     follow_redirect!
     assert_template 'users/show'
     assert is_logged_in?
