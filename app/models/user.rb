@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+	# Oznaczenie że z modelem user jest połączona podległa baza 'microposts' i że 
+	# do obiektu user może być przypisanych wiele micropostow
+	has_many :microposts # l. mnoga!!!
   attr_accessor :remember_token, :activation_token, :reset_token
   # call back - czyli procedura ktora zostanie wykonana 
   #             przed wykonaniem akcji w tym przypadku

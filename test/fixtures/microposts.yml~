@@ -1,7 +1,5 @@
 orange:
   content: "I just ate an orange!"
-  # daty są dodane jako w formacie erb by być w zawsze w odniesieniu
-  # do rzeczywistości, a nie polegać tylko na kolejności wykonywania kodu
   created_at: <%= 10.minutes.ago %>
 
 tau_manifesto:
