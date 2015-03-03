@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
 	# Oznaczenie że z modelem user jest połączona podległa baza 'microposts' i że 
-	# do obiektu user może być przypisanych wiele micropostow
-	has_many :microposts # l. mnoga!!!
+	# 	do obiektu user może być przypisanych wiele micropostow
+	# Dependent: :destroy oznacza że istnienie obiektow 'mikropost' nalezacych do 
+	#		danego obietku user, jest zalezne od akcji destroy. Gdy zniknie user, znikna mikrposty
+	has_many :microposts, dependent: :destroy # l. mnoga!!!
   attr_accessor :remember_token, :activation_token, :reset_token
   # call back - czyli procedura ktora zostanie wykonana 
   #             przed wykonaniem akcji w tym przypadku

@@ -76,13 +76,9 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test "associated microposts should be destroy" do
-  	#Zapisuje @usera do bazy danych by uzyskal wlasny nr id
   	@user.save
-  	# Tworzy micropost przypisany do uzytkownika
   	@user.microposts.create!(content: "Amba Fatima")
-  	# Założenie że zmniejszy się liczba postów w bazie danych
   	assert_difference 'Micropost.count', -1 do
-  		# Blok na którego końcu zostanie sprawdzone założenie
   		@user.destroy
   	end
   end

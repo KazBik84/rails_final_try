@@ -14,7 +14,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])  
-		redirect_to root_url and return unless @user.activated?
+    # do zmiennej @microposts, przypisujemy mikroposty należące do obiektu przypisanego
+    # 	obecnie do zmiennej @user na których wykorzystano gem will_paginate
+		@microposts = @user.microposts.paginate(page: params[:page])
   end
   
   def new
