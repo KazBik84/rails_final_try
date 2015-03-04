@@ -1,17 +1,31 @@
 orange:
   content: "I just ate an orange!"
-  # daty są dodane jako w formacie erb by być w zawsze w odniesieniu
+  # daty są dodane w formacie erb by być w zawsze w odniesieniu
   # do rzeczywistości, a nie polegać tylko na kolejności wykonywania kodu
   created_at: <%= 10.minutes.ago %>
+  # user: kask przypisuje dany micropost do obiektu kask w fixturs 'users'
+  user: kask
 
 tau_manifesto:
   content: "Check out the @tauday site by @mhartl: http://tauday.com"
   created_at: <%= 3.years.ago %>
+  user: kask
 
 cat_video:
   content: "Sad cats are sad: http://youtu.be/PKffm2uI4dk"
   created_at: <%= 2.hours.ago %>
-
+  user: kask
+  
 most_recent:
   content: "Writing a short test"
   created_at: <%= Time.zone.now %>
+  user: kask
+
+# Kod ruby zapisany w formacie erb  
+<% 30.times do |n| %>
+micropost_<%= n %>:
+  content: <%= Faker::Lorem.sentence(5) %>
+  created_at: <%= 42.days.ago %>
+  user: kask
+<% end %>
+ 

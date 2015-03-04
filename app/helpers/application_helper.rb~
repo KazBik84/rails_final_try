@@ -1,6 +1,6 @@
 module ApplicationHelper
   
-  #Sprawdza czy tytuł strony jest podany, jeśli nie, zwraca domyślny tytuł
+  #Sprawdza czy tytuł strony jest podany, jeśli nie zwraca domyślny tytuł
   def full_title( page_title = '' )
     base_title = "Ruby on Rails Tutorial Sample App"
     if page_title.empty?
