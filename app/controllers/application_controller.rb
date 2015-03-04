@@ -6,7 +6,16 @@ class ApplicationController < ActionController::Base
   #  helper będzie dostępny w każdym view i kontrolerze.
   include SessionsHelper
   
-#  def hello
-#    render text: "Hello World!"
-#  end
+	private
+	
+		# Potwierdza że user jest zalogowany
+		def logged_in_user
+			unless logged_in?
+				# funkcja z sessions_helper.rb która do sessions[:forwarding_url] przypisuje url który
+        # chce użyć użytkownik
+				store_location
+				flash[:danger] = "Please log in."
+				redirect_to login_url
+			end
+		end
 end

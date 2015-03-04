@@ -84,19 +84,22 @@ class UsersController < ApplicationController
     end
     
     # Before filters
-    
-    #Potwierdza czy user jest zalogowany
-    def logged_in_user
-      #jeżeli funkcja logged_in? która zdefiniowana jest w sessions_helper.rb,
-      # nie jest prawdą
-      unless logged_in?
-        # funkcja z sessions_helper.rb która do sessions[:forwarding_url] przypisuje url który
-        # chce użyć użytkownik
-        store_location
-        flash[:danger] = "Prosze się zalogować"
-        redirect_to login_url
-      end
-    end
+   
+   # !!!! Funkcja przeniesiona do application_controller by można 
+   #  ją wykorzystać tu i jednocześnie w innym kontrolerze. 
+   
+   # #Potwierdza czy user jest zalogowany
+   # def logged_in_user
+   #   #jeżeli funkcja logged_in? która zdefiniowana jest w sessions_helper.rb,
+   #   # nie jest prawdą
+   #   unless logged_in?
+   #     # funkcja z sessions_helper.rb która do sessions[:forwarding_url] przypisuje url który
+   #     # chce użyć użytkownik
+   #     store_location
+   #     flash[:danger] = "Prosze się zalogować"
+   #     redirect_to login_url
+   #   end
+   # end
     
     # Funkcja do potwierdzenie że użytkownik sięga tylko po dostępne opcje.
     

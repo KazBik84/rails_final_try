@@ -7,8 +7,8 @@ class MicropostsControllerTest < ActionController::TestCase
 	end
 	
 	test "should redirect create when not logged in" do
-		assert_no_difference 'Microsoft.count' do 
-			post :create, microposts: { :content: "Lorem ipsum" }
+		assert_no_difference 'Micropost.count' do 
+			post :create, microposts: { content: "Lorem ipsum" }
 		end
 		assert_redirected_to login_url
 	end
