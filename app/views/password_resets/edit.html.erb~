@@ -15,7 +15,7 @@
       <%= form.label :password_confirmation, "Confirmation" %>
       <%= form.password_field :password_confirmation, class: 'form-control' %>
       
-      <%= formsubmit "Update password", clss: 'btn btn-primary' %>
+      <%= form.submit "Update password", clss: 'btn btn-primary' %>
     <% end %>
   </div>
 </div>
