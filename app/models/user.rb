@@ -101,6 +101,13 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago  
   end
   
+  #Funkcja która wyszukuje wszystkie posty użytkownika
+  # Taki sposób zapisu chroni przed 'SQL injection' które 
+  #		może stanowić zagrożenie dla bezpieczeństwa. 
+  def feed
+  	Micropost.where("user_id = ?", id)
+  end
+  
   private
   
     # funkcja zmienia email na małe litery
