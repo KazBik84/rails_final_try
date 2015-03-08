@@ -1,6 +1,8 @@
 <% @feed_items.any? %>
 	<ol class="microposts">
-		<render @feed_items %>
-	</ol>
-	<%= will_paginate @feed_items %>
+		<!-- poniewarz każdy obiekt ze zbioru @feed_item należy do klasy Micropost z modelu micropost.rb
+			rails automatycznie będzie szukać partiala w views/microposts/_microposts.html.erb -->
+    <%= render @feed_items %>
+  </ol>
+  <%= will_paginate @feed_items %>
 <% end %>
