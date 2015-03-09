@@ -1,7 +1,12 @@
-<%= form_for(@micropost) do |form|
+<!-- html: {multipart: true} jest konieczny by można było uploadować pliki -->
+<%= form_for(@micropost, html: {multipart: true} ) do |form| %>
 	<%= render 'shared/error_messages', object: form.object %>
 	<div class="field">
 		<%= form.text_area :content, placeholder: "Compose new micropost..." %>
 	</div>
 	<%= form.submit "POST !!!", class: "btn btn-primary" %>
+	<span class-"picture">
+		<!-- Pole do uploadu plików -->
+		<%= form.file_field :picture %>
+	</span>
 <% end %>

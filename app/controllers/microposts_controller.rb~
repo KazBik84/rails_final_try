@@ -20,7 +20,7 @@ class MicropostsController < ApplicationController
 		flash[:success] = "Micropost deleted"
 		# request.reffer zwraca poprzedni adres url. User wróci więc do strony 
 		# na której napisal posta.
-		redirect_to request.referrer || root-url
+		redirect_to request.referrer || root_url
 	end
 	
 	private 
