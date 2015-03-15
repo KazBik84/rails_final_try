@@ -4,11 +4,31 @@ class User < ActiveRecord::Base
 	# Dependent: :destroy oznacza że istnienie obiektow 'mikropost' nalezacych do 
 	#		danego obietku user, jest zalezne od akcji destroy. Gdy zniknie user, znikna mikrposty
 	has_many :microposts, dependent: :destroy # l. mnoga!!!
+	
+	# Żeby móc zapisac że obiekt user has_many :active_relationships który to model nie istnieje
+	#		musimy podać Railsom, nazwę klasy modelu do którego się odnosimy, i klucz pod którym  
+	#		user będzie zapisany.
+	has_many :active_relationships, class_name: "Relationship",
+																	foreign_key: "follower_id",
+																	dependent: :destroy
+																	
+	has_many :passive_relationships, class_name: "Relationship",
+																	 foreign_key: "followed_id",
+																	 dependent: :destroy																	
+																	
+	#Obiek ma wiele 'following', z tabeli 'active_relationships' zdefiniowanego 
+	#		wczesniej ??, ale ze 'followed'jest prawidlowa forma a nie 'following'
+	#		poprzez source 'followed' mozemy zapisac 'following' lub cokolwiek innego
+	# 	bo Railsy i tak poszukaja po followed 																	
+	has_many :following, through: :active_relationships, source: :followed
+	has_many :followers, through: :passive_relationships, source: :follower
   attr_accessor :remember_token, :activation_token, :reset_token
+  
   # call back - czyli procedura ktora zostanie wykonana 
   #             przed wykonaniem akcji w tym przypadku
   #             przed save
   before_save :downcase_email
+  
   # Akcja before create działą jak nazwa wskazuje tylko przed akcją create, nie 
   # przed akcja update. Funkcja create_activation_digest jest prywatną 
   # funkcją tego modelu.
@@ -108,6 +128,22 @@ class User < ActiveRecord::Base
   	Micropost.where("user_id = ?", id)
   end
   
+  def follow(other_user)
+  	# Tworzy wiersz w active_relationships, pomiędzy obiektem user (self które zostało pominięte)
+  	#		a obiektem z parametru
+  	active_relationships.create(followed_id: other_user.id)
+  end 
+  
+  def unfollow(other_user)
+  	# Łańcuch funkcji, najpier wiersz z relacją jest znajdowany po followed_id
+  	#		a następnie na nim wykonywana jest akcja destroy
+  	active_relationships.find_by(followed_id: other_user.id).destroy
+  end 
+  
+  def following?(other_user)
+  	#Sprawdza czy zbiór (pominiętego) self, zawiera other_user 
+  	following.include?(other_user)
+  end
   private
   
     # funkcja zmienia email na małe litery
@@ -123,4 +159,6 @@ class User < ActiveRecord::Base
       # zakodowanie activation tokenu. 
       self.activation_digest = User.digest(activation_token)
     end
+    
+
 end
