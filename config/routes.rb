@@ -19,10 +19,18 @@ Rails.application.routes.draw do
   post   'login'     => 'sessions#create'
   delete 'logout'    => 'sessions#destroy'
   # resourcs dodaje możliwość korzystania z wszystkich REST akcji
-  resources :users 
+  resources :users do
+  	#Dodaje linki do user_path, tworząc linki: /users/1/followers lub 
+  	#	/users/1/following, nazwy to: followers_user_path i following_user_path
+  	member do
+  		# 'get' jest wskazaniem typu żadania danego linku
+  		get :following, :followers
+  	end
+  end
   # ograniczenie przekierowań tylko do akcji edit.
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
   resources :microposts, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy]
 
 end
