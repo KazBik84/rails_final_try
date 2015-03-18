@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   # before action wywoła funkcję 'logged_in_user' przed wykonaniem akcji podanych
   # w hashu 'only'
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
+  																			:following, :followers]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
   
@@ -74,6 +75,19 @@ class UsersController < ApplicationController
     redirect_to users_url
   end    
   
+  def following
+  	@title = "Following"
+  	@user = User.find(params[:id])
+  	@usera = @user.following.paginate(page: params[:page])
+  	render 'show_follow'
+  end
+  
+  def followers
+  	@title = "Followers"
+  	@user = User.find(params[:id])
+  	@users = @user.followers.paginate(page: params[:page])
+  	render 'show_follow'
+  end
   private # wszystko po tej komendzie jest prywatne tylko dla users_controller
   
     #funkcja ta przyjmie wartości przesłane w params[:user] 
@@ -84,19 +98,22 @@ class UsersController < ApplicationController
     end
     
     # Before filters
-    
-    #Potwierdza czy user jest zalogowany
-    def logged_in_user
-      #jeżeli funkcja logged_in? która zdefiniowana jest w sessions_helper.rb,
-      # nie jest prawdą
-      unless logged_in?
-        # funkcja z sessions_helper.rb która do sessions[:forwarding_url] przypisuje url który
-        # chce użyć użytkownik
-        store_location
-        flash[:danger] = "Prosze się zalogować"
-        redirect_to login_url
-      end
-    end
+   
+   # !!!! Funkcja przeniesiona do application_controller by można 
+   #  ją wykorzystać tu i jednocześnie w innym kontrolerze. 
+   
+   # #Potwierdza czy user jest zalogowany
+   # def logged_in_user
+   #   #jeżeli funkcja logged_in? która zdefiniowana jest w sessions_helper.rb,
+   #   # nie jest prawdą
+   #   unless logged_in?
+   #     # funkcja z sessions_helper.rb która do sessions[:forwarding_url] przypisuje url który
+   #     # chce użyć użytkownik
+   #     store_location
+   #     flash[:danger] = "Prosze się zalogować"
+   #     redirect_to login_url
+   #   end
+   # end
     
     # Funkcja do potwierdzenie że użytkownik sięga tylko po dostępne opcje.
     
