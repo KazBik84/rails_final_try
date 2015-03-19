@@ -14,7 +14,7 @@ class FollowingTest < ActionDispatch::IntegrationTest
 		assert_match @user.following.count.to_s, response.body
 		# Sprawdza czy linki do wszystkich 'following'-ów znajduja sie na stronie 
 		@user.following.each do |user|
-			assert_select "a[href=?]", user_path(user)
+			assert_select "a[href=?]", user+path(user)
 		end
 	end
 	

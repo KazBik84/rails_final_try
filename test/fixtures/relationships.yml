@@ -1,16 +1,15 @@
 one: 
-	follower: kask
-	followed: lana
-	
+  follower: kask
+  followed: lana	
+  
 two: 
-	follower: kask
-	followed: mallory
-	
-three:
-	follower: lana
-	followed: kask
-	
-four:
-	follower: archer
-	followed: kask
+  follower: kask
+  followed: mallory
 
+three:
+  follower: lana
+  followed: kask
+
+four:
+  follower: archer
+  followed: kask

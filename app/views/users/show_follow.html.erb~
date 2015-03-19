@@ -1,4 +1,4 @@
-<% provide(:title, @title)
+<% provide(:title, @title) %>
 <div class="row">
 	<aside class="col=md=4">
 		<section class="user_info">
@@ -18,4 +18,12 @@
 			<% end %>
 		</section>
 	</aside>
+	<div class="col-md-8">
+		<% if @users.any? %>
+			<ul class="uses follow">
+				<%= render @users %>
+			</ul>
+			<%= will_paginate %>
+		<% end %>
+	</div> 
 </div>

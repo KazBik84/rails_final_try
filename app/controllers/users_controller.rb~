@@ -88,6 +88,7 @@ class UsersController < ApplicationController
   	@users = @user.followers.paginate(page: params[:page])
   	render 'show_follow'
   end
+  
   private # wszystko po tej komendzie jest prywatne tylko dla users_controller
   
     #funkcja ta przyjmie wartości przesłane w params[:user] 

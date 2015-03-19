@@ -1,4 +1,4 @@
-<% provide(:title, @title)
+<% provide(:title, @title) %>
 <div class="row">
 	<aside class="col=md=4">
 		<section class="user_info">
@@ -9,7 +9,7 @@
 		</section>
 		<section>
 			<%= render 'shared/stats' %>
-			<% if users.any? %>
+			<% if @users.any? %>
 				<div class="user_avatars">
 					<% @users.each do |user| %>
 						<%= link_to gravatar_for(user, size: 30), user %>
