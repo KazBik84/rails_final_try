@@ -1,8 +1,8 @@
-<%= form_for(current_user.active_relationships.find_by(followed_id: @user.id),
-												html: { method: :delete},
 												<!-- remote: true, to sposób na użycie Ajax, który to jak
 												mi się wydaje pozwala na wykonanie akcji w rails bez 
 												potrzeby renderowania strony jako wyniku akcji -->
+<%= form_for(current_user.active_relationships.find_by(followed_id: @user.id),
+												html: { method: :delete},
 												remote: true) do |form| %>
 	<%= form.submit "Unfollow", class: "btn" %>
 <% end %>

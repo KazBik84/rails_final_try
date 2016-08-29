@@ -98,4 +98,21 @@ class UserTest < ActiveSupport::TestCase
   	assert_not michael.following?(kask)
   end
   
+  test "feed should have the right posts" do
+  	kask = users(:kask)
+  	archer = users(:archer)
+  	lana = users(:lana)
+  	#Posty od śledzonych userów
+  	lana.microposts.each do |post_following|
+  		assert kask.feed.include?(post_following)
+  	end
+  	#Własne posty
+  	kask.microposts.each do |post_self|
+  		assert kask.feed.include?(post_self)
+  	end
+  	#Nieswoje posty
+  	archer.microposts.each do |post_unfollowed|
+  		assert_not kask.feed.include?(post_unfollowed)
+  	end
+  end
 end

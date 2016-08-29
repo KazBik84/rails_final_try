@@ -124,14 +124,26 @@ class User < ActiveRecord::Base
   #Funkcja która wyszukuje wszystkie posty użytkownika
   # Taki sposób zapisu chroni przed 'SQL injection' które 
   #		może stanowić zagrożenie dla bezpieczeństwa. 
+  #Micropost.where("user_id = ?", id)
+  
+  # following_ids jest wbudowana funkcją Active Records, a wygląda mniej więcej tak:
+  #		User.first.following.map{ |i| i.to_s } << zwraca liste uzytkownikow sledzacych pierwszego uzytkownika
+  #		User.first.following.map(&:to_s) to to samo co: .map{ |i| i.to_s }
+  # A User.first.following.map(&:id) zwraca zbior id wszystkich obiektow following podanego obiektu
+  # A że .following.map(&:id) jest bardzo popularne można to zastapić skrótem .following_ids
+  # following_ids zostało zmienione by efektywniej przeszykiwać SQL
   def feed
-  	Micropost.where("user_id = ?", id)
+  
+  	following_ids = "SELECT followed_id FROM relationships
+  									 WHERE follower_id = :user_id"
+		Micropost.where("user_id IN (#{following_ids}) OR user_id = :user_id", user_id: id)
   end
+  
   
   def follow(other_user)
   	# Tworzy wiersz w active_relationships, pomiędzy obiektem user (self które zostało pominięte)
   	#		a obiektem z parametru
-  	active_relationships.create(followed_id: other_user.id)
+    active_relationships.create(followed_id: other_user.id)
   end 
   
   def unfollow(other_user)
